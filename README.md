@@ -1,4 +1,4 @@
-# Double Level (DEMO NAME)
+# Shadow Shift
 
 The [Game off 2024](https://itch.io/jam/game-off-2024) is a month long game jam hosted on itch.io across the month of November. This is my git repo for my own submission. 
 
