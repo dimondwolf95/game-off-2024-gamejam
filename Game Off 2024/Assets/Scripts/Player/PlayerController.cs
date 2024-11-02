@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerController : MonoBehaviour
 {
-    private float horizontal;
+    
     [SerializeField] float speed = 8f;
     [SerializeField] float jumpingPower = 16f;
     private bool isFacingRight = true;
@@ -37,9 +38,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private PhysicsMaterial2D normal;
     [SerializeField] private PhysicsMaterial2D wall;
+    [SerializeField] private GameInput gameInput;
+
 
     private void Update() {
-        horizontal = Input.GetAxisRaw("Horizontal");
+        
 
         Jump();
 
@@ -92,7 +95,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate() {
         if (!isWallJumping) {
 
-            float targetSpeed = horizontal * speed;
+            float targetSpeed = gameInput.RunInput() * speed;
 
             float speedDif = targetSpeed - rb.velocity.x;
 
@@ -115,7 +118,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void WallSlide() {
-        if (IsWalled() && !IsGrounded() && horizontal != 0f) {
+        if (IsWalled() && !IsGrounded() && gameInput.RunInput() != 0f) {
             isWallSliding = true;
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         } else {
@@ -155,7 +158,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Flip() {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f) {
+        if (isFacingRight && gameInput.RunInput() < 0f || !isFacingRight && gameInput.RunInput() > 0f) {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;

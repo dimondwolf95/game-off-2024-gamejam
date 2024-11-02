@@ -6,15 +6,18 @@ public class PlayerDamage : MonoBehaviour
 {
     PlayerHealth playerHealth;
 
+    PlayerPoints playerPoints;
+
     private EnemyDamageHolder enemyDamageHolder;
 
     private void Start() {
-        playerHealth = new PlayerHealth(10);
+        playerHealth = new PlayerHealth(3);
+        playerPoints = new PlayerPoints(0);
     }
 
     void Update() {
         if(playerHealth.GetHealth() == 0) {
-            // Player is dead
+            playerPoints.ResetPlayerOrbs();
         }
     }
 
