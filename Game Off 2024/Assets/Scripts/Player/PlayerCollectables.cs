@@ -8,6 +8,7 @@ public class PlayerCollectables : MonoBehaviour
     PlayerPoints playerPoints;
 
     [SerializeField] TextMeshProUGUI pointsText;
+    [SerializeField] ParticleSystem orblosion;
 
     private void Start() {
         playerPoints = new PlayerPoints(0);
@@ -20,6 +21,7 @@ public class PlayerCollectables : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Orb")) {
             playerPoints.AddOrbs(1);
+            Instantiate(orblosion, collision.gameObject.transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
         }
     }

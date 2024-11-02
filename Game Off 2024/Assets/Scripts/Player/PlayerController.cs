@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     private float wallJumpingDuration = 0.4f;
     private Vector2 wallJumpingPower = new Vector2(12f, 20f);
 
-    [SerializeField] private Rigidbody2D rb;
+    public Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform wallCheck;
@@ -109,11 +109,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool IsGrounded() {
+    public bool IsGrounded() {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
-    private bool IsWalled() {
+    public bool IsWalled() {
         return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
     }
 
