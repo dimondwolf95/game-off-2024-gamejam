@@ -10,6 +10,12 @@ public class PlayerController : MonoBehaviour
     private float jumpingPower = 16f;
     private bool isFacingRight = true;
 
+    private float coyoteTime = 0.2f;
+    private float coyoteTimeCounter;
+
+    private float jumpBufferTime = 0.2f;
+    private float jumpBufferCounter;
+
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
@@ -48,12 +54,29 @@ public class PlayerController : MonoBehaviour
     }
 
     void Jump() {
-        if (Input.GetButtonDown("Jump") && IsGrounded()) {
+
+        if (IsGrounded()) {
+            coyoteTimeCounter = coyoteTime;
+        } else {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (Input.GetButtonDown("Jump")) {
+            jumpBufferCounter = jumpBufferTime;
+        } else {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (coyoteTimeCounter > 0 && jumpBufferCounter > 0f) {
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+
+            jumpBufferCounter = 0f;
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f) {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+
+            coyoteTimeCounter = 0;
         }
     }
 
