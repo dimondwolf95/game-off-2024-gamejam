@@ -6,9 +6,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private float horizontal;
-    private float speed = 8f;
-    private float jumpingPower = 16f;
+    [SerializeField] float speed = 8f;
+    [SerializeField] float jumpingPower = 16f;
     private bool isFacingRight = true;
+
+    [SerializeField] float acceleration;
+    [SerializeField] float decceleration;
+    [SerializeField] float velPower;
 
     private float coyoteTime = 0.2f;
     private float coyoteTimeCounter;
@@ -17,14 +21,14 @@ public class PlayerController : MonoBehaviour
     private float jumpBufferCounter;
 
     private bool isWallSliding;
-    private float wallSlidingSpeed = 2f;
+    [SerializeField] float wallSlidingSpeed = 2f;
 
     private bool isWallJumping;
     private float wallJumpingDirection;
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 0.4f;
-    private Vector2 wallJumpingPower = new Vector2(8f, 16f);
+    private Vector2 wallJumpingPower = new Vector2(12f, 20f);
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
@@ -87,7 +91,18 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate() {
         if (!isWallJumping) {
-            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+
+            float targetSpeed = horizontal * speed;
+
+            float speedDif = targetSpeed - rb.velocity.x;
+
+            float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : decceleration;
+
+            float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
+
+            rb.AddForce(movement * Vector2.right);
+
+            //rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
         }
     }
 
