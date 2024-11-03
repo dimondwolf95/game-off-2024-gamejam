@@ -10,6 +10,8 @@ public class PlayerDamage : MonoBehaviour
 
     private EnemyDamageHolder enemyDamageHolder;
 
+    [SerializeField] ParticleSystem blood;
+
     private void Start() {
         playerHealth = new PlayerHealth(3);
         playerPoints = new PlayerPoints(0);
@@ -23,8 +25,15 @@ public class PlayerDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Enemy")) {
+            // Dealing damage
             enemyDamageHolder = collision.GetComponent<EnemyDamageHolder>();
             playerHealth.Damage(enemyDamageHolder.damageAmount);
+
+            // Polish
+            Instantiate(blood, collision.gameObject.transform.position, blood.transform.rotation);
+            CinemachineShake.Instance.ShakeCamera(2f, .1f);
+
+            // debug
             Debug.Log(playerHealth.GetHealth());
         }
     }
