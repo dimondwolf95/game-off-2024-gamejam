@@ -7,8 +7,8 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 public class PlayerController : MonoBehaviour
 {
     
-    [SerializeField] float speed = 8f;
-    [SerializeField] float jumpingPower = 16f;
+    public float speed = 8f;
+    public float jumpingPower = 16f;
     private bool isFacingRight = true;
 
     [SerializeField] float acceleration;

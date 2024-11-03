@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject demoV1;
+    [SerializeField] GameObject demoV2;
+
     bool v1 = true;
 
     private void Update() {
@@ -15,12 +18,12 @@ public class GameManager : MonoBehaviour
 
     void DemoSwitch() {
         if (Input.GetKeyDown(KeyCode.F) && v1) {
-            SceneManager.LoadScene("Demo2", LoadSceneMode.Additive);
-            SceneManager.UnloadSceneAsync("Demo1");
+            demoV2.SetActive(true);
+            demoV1.SetActive(false);
             v1 = false;
         } else if (Input.GetKeyDown(KeyCode.F) && !v1) {
-            SceneManager.LoadScene("Demo1", LoadSceneMode.Additive);
-            SceneManager.UnloadSceneAsync("Demo2");
+            demoV1.SetActive(true);
+            demoV2.SetActive(false);
             v1 = true;
         }
     }

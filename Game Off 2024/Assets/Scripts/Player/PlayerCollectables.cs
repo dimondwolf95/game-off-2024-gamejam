@@ -8,6 +8,7 @@ public class PlayerCollectables : MonoBehaviour
     PlayerPoints playerPoints;
 
     [SerializeField] TextMeshProUGUI pointsText;
+    [SerializeField] GameObject greyedOrb;
     [SerializeField] ParticleSystem orblosion;
 
     private void Start() {
@@ -23,6 +24,7 @@ public class PlayerCollectables : MonoBehaviour
             playerPoints.AddOrbs(1);
             Instantiate(orblosion, collision.gameObject.transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
+            Instantiate(greyedOrb, collision.gameObject.transform.position, Quaternion.identity);
         }
     }
 }
